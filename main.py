@@ -26,18 +26,20 @@ def sort_imports(py_file, dir):
         list_of_lines = f.readlines()
         print(list_of_lines)
 
-        import_names = sorted(
+        sorted_import_names = sorted(
             [line for line in list_of_lines if line.startswith("import")]
         )
         list_of_lines = [
             line for line in list_of_lines if not line.startswith("import")
         ]
 
-        result = import_names + list_of_lines
+        result = sorted_import_names + list_of_lines
         print(f"End Result:\n{result}")
 
     with open(os.path.join(dir, py_file), "w") as wf:
         wf.writelines(result)
+
+    return sorted_import_names
 
 
 def check_for_py_files(directory):
@@ -45,7 +47,9 @@ def check_for_py_files(directory):
     full_path = os.path.abspath(directory)
     py_files = [file for file in os.listdir(full_path) if file.endswith(".py")]
     for file in py_files:
+        print(f"Found a python file: {file}, will attempt to sort now...")
         sort_imports(file, directory)
+    return py_files
 
 
 def main(args):
