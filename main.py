@@ -1,9 +1,6 @@
 import argparse
-import logging
 import os
-import signal
 import sys
-import time
 
 
 exit_flag = False
@@ -29,9 +26,6 @@ def sort_imports(py_file, dir):
         list_of_lines = f.readlines()
         print(list_of_lines)
 
-        # TODO:
-        # create list of import
-
         import_names = sorted(
             [line for line in list_of_lines if line.startswith("import")]
         )
@@ -40,9 +34,6 @@ def sort_imports(py_file, dir):
         ]
 
         result = import_names + list_of_lines
-        # list_of_lines.insert(0, import_names)
-
-        # print(f"Import Names:\n{import_names}")
         print(f"End Result:\n{result}")
 
     with open(os.path.join(dir, py_file), "w") as wf:
