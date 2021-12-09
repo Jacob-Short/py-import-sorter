@@ -23,16 +23,13 @@ def sort_imports(py_file, dir):
     """will look at all .py files and sort all imports"""
     import_names = []
     with open(os.path.join(dir, py_file)) as f:
+        # this is where the lines are being broken up
         all_lines = f.readlines()
-        # print(list_of_lines)
 
-        # TODO:
-            # Need to take into account ex:
-                # from user_account.forms import (
-                # RegisterForm,
-                # LoginForm,
-                # CreateProfileForm,
-                # )
+        for line in all_lines:
+            if line.strip().endswith("("):
+                print(f"This is a edge case: [ {line} ]")
+
         sorted_import_names = sorted(
             [
                 line
@@ -40,14 +37,6 @@ def sort_imports(py_file, dir):
                 if line.startswith("import") or line.startswith("from")
             ]
         )
-
-        # TODO:
-            # enumerate sorted_import_list
-                # find index of first occurence of 'import'
-                # insert a '\n' right before that index
-                # to create separation between 'from' imports
-                # and regular imports 
-
         non_import_lines = [
             line
             for line in all_lines
@@ -55,7 +44,7 @@ def sort_imports(py_file, dir):
         ]
 
         print(f"import lines:\n{sorted_import_names}")
-        # print(f"non import lines:\n{non_import_lines}")
+        print(f"non import lines:\n{non_import_lines}")
 
         result = sorted_import_names + non_import_lines
         # print(f"End Result:\n{result}")

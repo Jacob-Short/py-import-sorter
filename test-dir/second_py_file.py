@@ -1,14 +1,20 @@
-from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm
 from django.db.models.fields import TextField
-from django.forms import widgets
-from django.forms.fields import EmailField
-import argparse
-import black
 import os
+from django.forms.fields import EmailField
+import black
+from django.forms import widgets
+import time 
+from django import forms
 import pandas
 import sys
-import time 
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm
+import argparse
+
+from user_account.forms import (
+RegisterForm,
+LoginForm,
+CreateProfileForm,
+)
 
 
 
