@@ -34,6 +34,13 @@ def sort_imports(py_file, dir):
             ]
         )
 
+        # TODO:
+            # enumerate sorted_import_list
+                # find index of first occurence of 'import'
+                # insert a '\n' right before that index
+                # to create separation between 'from' imports
+                # and regular imports 
+
         non_import_lines = [
             line
             for line in all_lines
@@ -41,7 +48,7 @@ def sort_imports(py_file, dir):
         ]
 
         print(f"import lines:\n{sorted_import_names}")
-        print(f"non import lines:\n{non_import_lines}")
+        # print(f"non import lines:\n{non_import_lines}")
 
         result = sorted_import_names + non_import_lines
         # print(f"End Result:\n{result}")
