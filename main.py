@@ -26,6 +26,13 @@ def sort_imports(py_file, dir):
         all_lines = f.readlines()
         # print(list_of_lines)
 
+        # TODO:
+            # Need to take into account ex:
+                # from user_account.forms import (
+                # RegisterForm,
+                # LoginForm,
+                # CreateProfileForm,
+                # )
         sorted_import_names = sorted(
             [
                 line
