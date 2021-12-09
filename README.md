@@ -1,5 +1,7 @@
 # py-import-sorter
 
+Will sort all import statements in all python files within the given directory
+
 
 ## Getting Started
 
