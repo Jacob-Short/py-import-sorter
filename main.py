@@ -2,11 +2,14 @@ import argparse
 import os
 import sys
 
+# for python 3.8 and earlier
+# from typing import List, Set, Dict, Tuple, Optional
+
 
 exit_flag = False
 
 
-def create_parser():
+def create_parser() -> argparse.ArgumentParser:
     """Returns an instance Parser"""
     parser = argparse.ArgumentParser(
         description="""Will connect to crypto socket
@@ -16,17 +19,21 @@ def create_parser():
 
     parser.add_argument("dir", help="name of directory to sort python files")
 
+    print(f'Parser:\n{type(parser)}')
     return parser
 
 
-def sort_imports(py_file, dir):
+def sort_imports(py_file, dir) -> list:
     """will look at all .py files and sort all imports"""
     import_names = []
     with open(os.path.join(dir, py_file)) as f:
         # this is where the lines are being broken up
         all_lines = f.readlines()
 
-        for line in all_lines:
+        # TODO:
+        # need to look at next iterations in list
+        # until matching ')' is found
+        for index, line in enumerate(all_lines):
             if line.strip().endswith("("):
                 print(f"This is a edge case: [ {line} ]")
 
@@ -52,16 +59,18 @@ def sort_imports(py_file, dir):
     with open(os.path.join(dir, py_file), "w") as wf:
         wf.writelines(result)
 
+    # print(type(sorted_import_names))
     return sorted_import_names
 
 
-def check_for_py_files(directory):
+def check_for_py_files(directory) -> list:
     """will look at all .py files and sort all imports"""
     full_path = os.path.abspath(directory)
     py_files = [file for file in os.listdir(full_path) if file.endswith(".py")]
     for file in py_files:
         print(f"Found a python file: [ {file} ], starting to sort now...")
         sort_imports(file, directory)
+    print(type(py_files))
     return py_files
 
 
