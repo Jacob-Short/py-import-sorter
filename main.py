@@ -19,7 +19,7 @@ def create_parser() -> argparse.ArgumentParser:
 
     parser.add_argument("dir", help="name of directory to sort python files")
 
-    print(f'Parser:\n{type(parser)}')
+    print(f"Parser:\n{type(parser)}")
     return parser
 
 
@@ -44,11 +44,17 @@ def sort_imports(py_file, dir) -> list:
                 if line.startswith("import") or line.startswith("from")
             ]
         )
+
+        # adding new line to give separation between import &&
+            # non import lines
+        sorted_import_names.append("\n")
         non_import_lines = [
             line
             for line in all_lines
             if not line.startswith("import") and not line.startswith("from")
         ]
+
+        non_import_lines.append("\n")
 
         print(f"import lines:\n{sorted_import_names}")
         print(f"non import lines:\n{non_import_lines}")
