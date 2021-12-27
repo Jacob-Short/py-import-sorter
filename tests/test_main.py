@@ -14,3 +14,11 @@ class TestSortImports(unittest.TestCase):
             argparse.ArgumentParser,
             "create_parser() function is not returning a parser object",
         )
+
+    def test_sort_imports(self):
+        """tests sorting imports functions"""
+        pass
+
+    def test_check_for_py_files(self):
+        """checks python file extenstions"""
+        pass

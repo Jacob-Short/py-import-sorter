@@ -93,18 +93,6 @@ def sort_imports(py_file, dir) -> list:
     return sorted_import_names
 
 
-def sort_edge_cases(remaining_lines) -> list:
-    """will append next iterations of lines with
-    ' from pypy import (
-        foo,
-        bar,
-    '
-    )
-    """
-    for line in remaining_lines:
-        print(line)
-
-
 def check_for_py_files(directory) -> list:
     """will look at all .py files and sort all imports"""
     full_path = os.path.abspath(directory)
