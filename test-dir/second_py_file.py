@@ -11,9 +11,9 @@ import sys
 import time 
 
 from user_account.forms import (
-RegisterForm,
-LoginForm,
 CreateProfileForm,
+LoginForm,
+RegisterForm,
 )
 
 def does_nothing():
@@ -21,4 +21,3 @@ def does_nothing():
     lines are not sorted
     '''
     pass
-
