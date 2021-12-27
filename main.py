@@ -70,7 +70,6 @@ def sort_imports(py_file, dir) -> list:
             if line.startswith("import"):
                 sorted_import_names.insert(ind, "\n")
                 break
-
         sorted_import_names.append("\n")
         non_import_lines = [
             line
@@ -79,6 +78,8 @@ def sort_imports(py_file, dir) -> list:
             and not line.startswith("from")
             and line not in edge_case_lines
         ]
+        non_import_lines.append("\n")
+
         non_import_lines.append("\n")
 
         print(f"import lines:\n{sorted_import_names}")
