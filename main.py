@@ -83,6 +83,7 @@ def sort_imports(py_file, dir) -> list:
             ]
         )
 
+
         # TODO:
         # add new line in between reg imports & 'from' imports
 
@@ -90,6 +91,9 @@ def sort_imports(py_file, dir) -> list:
             if line.startswith("import"):
                 sorted_import_names.insert(ind, "\n")
                 break
+
+        # adding new line to give separation between import &&
+            # non import lines
 
         sorted_import_names.append("\n")
         non_import_lines = [
@@ -99,6 +103,8 @@ def sort_imports(py_file, dir) -> list:
             and not line.startswith("from")
             and line not in edge_case_lines
         ]
+        non_import_lines.append("\n")
+
         non_import_lines.append("\n")
 
         print(f"import lines:\n{sorted_import_names}")
