@@ -33,10 +33,17 @@ def sort_imports(py_file, dir) -> list:
         # TODO:
         # need to look at next iterations in list
         # until matching ')' is found
+
+        # temp placeholder for edge case lines
+        edge_case_lines = []
+
         for index, line in enumerate(all_lines):
             if line.strip().endswith("("):
                 print(f"This is a edge case: [ {line} ]")
-
+                sort_edge_cases(all[index:])
+                    # can create separate function and pass the rest of the list
+                        # to create a edge_case_lists
+                        # then can append them all after
         sorted_import_names = sorted(
             [
                 line
@@ -61,6 +68,18 @@ def sort_imports(py_file, dir) -> list:
 
     # print(type(sorted_import_names))
     return sorted_import_names
+
+
+def sort_edge_cases(remaining_lines) -> list:
+    '''will append next iterations of lines with 
+    ' from pypy import ( 
+        foo,
+        bar,
+    '
+    )
+    '''
+    for line in remaining_lines:
+        print(line)
 
 
 def check_for_py_files(directory) -> list:
