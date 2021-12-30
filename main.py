@@ -58,7 +58,7 @@ def check_for_py_files(directory: str) -> list:
     return py_files
 
 
-def sort_imports(py_file: str, dir: str) -> list:
+def sort_imports(py_file: str, dir: str) -> None:
     """will look at all .py files and sort all imports"""
 
     import_names = []
@@ -162,8 +162,7 @@ def sort_imports(py_file: str, dir: str) -> list:
         # TODO:
         # before closing the file -- can run flake8 / black
 
-    return sorted_import_names
-
+    return None
 
 if __name__ == "__main__":
     main(sys.argv[1:])
