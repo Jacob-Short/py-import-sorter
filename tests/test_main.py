@@ -21,4 +21,7 @@ class TestSortImports(unittest.TestCase):
 
     def test_check_for_py_files(self):
         """checks python file extenstions"""
-        pass
+        args = "tests/directory_with_py_files"
+        result = check_for_py_files(args)
+        expected = ["forms.py", "target_file.py"]
+        self.assertEquals(result, expected)

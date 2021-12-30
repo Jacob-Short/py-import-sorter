@@ -103,7 +103,7 @@ def sort_imports(py_file: str, dir: str) -> list:
             if line.startswith("import"):
                 sorted_import_names.insert(ind, "\n")
                 break
-
+            
         sorted_import_names.append("\n")
         non_import_lines = [
             line
