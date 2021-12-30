@@ -14,6 +14,12 @@ from ..directory_with_py_files.forms import (
 )
 
 
+
+
+
+
+
+
 class Message(models.Model):
 
     CHOICES = [(1, "True"), (2, "False")]
@@ -29,3 +35,9 @@ class Message(models.Model):
 
     def __str__(self):
         return self.message
+
+
+
+
+
+

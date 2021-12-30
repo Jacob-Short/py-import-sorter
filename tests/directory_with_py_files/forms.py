@@ -1,3 +1,4 @@
+
 class CreateProfileForm:
     pass
 
@@ -6,3 +7,4 @@ class LoginForm:
 
 class RegisterForm:
     pass
+

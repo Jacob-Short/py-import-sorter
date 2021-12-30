@@ -15,9 +15,17 @@ class TestSortImports(unittest.TestCase):
             "create_parser() function is not returning a parser object",
         )
 
-    def test_sort_imports(self):
+    def test_easy_sort_imports(self):
         """tests sorting imports functions"""
-        pass
+        args = ["target_file.py", "tests/directory_with_py_files"]
+        result = sort_imports(args)
+        # expected
+
+    def test_edge_case_sort_imports(self):
+        """tests sorting imports functions"""
+        args = ["edge_case_file.py", "tests/edge_case_dir"]
+        result = sort_imports(args)
+        # expected
 
     def test_check_for_py_files(self):
         """checks python file extenstions"""

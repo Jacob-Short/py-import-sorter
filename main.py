@@ -58,6 +58,48 @@ def check_for_py_files(directory: str) -> list:
     return py_files
 
 
+def multi_line_checker(lines: list) -> list:
+    """takes in a list of lines and checks for multi
+    line import statements
+    Ex:
+    from messaging.forms import (
+        Messaging,
+        SendMessage,
+        DeleteMessage
+    )
+    """
+    # TODO:
+    # refactor using regex
+    multi_line_imports = []
+    multi_line = False
+
+
+    for index, line in enumerate(lines):
+        if line.strip().startswith("from") and line.strip().endswith("("):
+            print(f"This is a edge case: [ {line} ]")
+            multi_line_imports.append(line)
+            multi_line = True
+        elif line.strip().endswith(")") and multi_line:
+            multi_line_imports.append(line)
+            multi_line = False
+        elif multi_line:
+            multi_line_imports.append(line)
+    print(f"multi-line imports:\n{multi_line_imports}")
+    """
+    this section is to check if there are any multi-line import statements
+    and if so then to sort them
+    """
+    if len(multi_line_imports) > 1:
+        sorted_multi_line_imports = sorted([line for line in multi_line_imports[1:-1]])
+        print(f"sorted edge case lines:\n{sorted_multi_line_imports}")
+        sorted_multi_line_imports.insert(0, multi_line_imports[0])
+        sorted_multi_line_imports.append(multi_line_imports[-1])
+        print(f"FINAL RESULT OF sorted edge case lines:\n{sorted_multi_line_imports}")
+        return sorted_multi_line_imports
+    else:
+        return multi_line_imports
+
+
 def sort_imports(py_file: str, dir: str) -> None:
     """will look at all .py files and sort all imports"""
 
@@ -65,8 +107,6 @@ def sort_imports(py_file: str, dir: str) -> None:
     with open(os.path.join(dir, py_file)) as f:
         all_lines = f.readlines()
 
-        multi_line = False
-        edge_case_lines = []
 
         """
         this section is to account for multi line import statements
@@ -77,34 +117,8 @@ def sort_imports(py_file: str, dir: str) -> None:
             RegisterForm,
         )
         """
-        # TODO:
-        # refactor using regex
-        for index, line in enumerate(all_lines):
-            if line.strip().startswith("from") and line.strip().endswith("("):
-                print(f"This is a edge case: [ {line} ]")
-                edge_case_lines.append(line)
-                multi_line = True
-            elif line.strip().endswith(")") and multi_line:
-                edge_case_lines.append(line)
-                multi_line = False
-            elif multi_line:
-                edge_case_lines.append(line)
 
-        print(f"edge cases:\n{edge_case_lines}")
-
-        """
-        this section is to check if there are any multi-line import statements
-        and if so then to sort them
-        """
-        if len(edge_case_lines) > 1:
-            sorted_edge_case_lines = sorted([line for line in edge_case_lines[1:-1]])
-
-            print(f"sorted edge case lines:\n{sorted_edge_case_lines}")
-
-            sorted_edge_case_lines.insert(0, edge_case_lines[0])
-            sorted_edge_case_lines.append(edge_case_lines[-1])
-
-            print(f"FINAL RESULT OF sorted edge case lines:\n{sorted_edge_case_lines}")
+        multi_line_imports = multi_line_checker(all_lines)
 
         sorted_import_names = sorted(
             [
@@ -112,7 +126,7 @@ def sort_imports(py_file: str, dir: str) -> None:
                 for line in all_lines
                 if line.startswith("import")
                 or line.startswith("from")
-                and line not in edge_case_lines
+                and line not in multi_line_imports
             ]
         )
 
@@ -145,7 +159,7 @@ def sort_imports(py_file: str, dir: str) -> None:
             for line in all_lines
             if not line.startswith("import")
             and not line.startswith("from")
-            and line not in edge_case_lines
+            and line not in multi_line_imports
         ]
         non_import_lines.append("\n")
 
@@ -154,7 +168,7 @@ def sort_imports(py_file: str, dir: str) -> None:
         print(f"import lines:\n{sorted_import_names}")
         print(f"non import lines:\n{non_import_lines}")
 
-        result = sorted_import_names + sorted_edge_case_lines + non_import_lines
+        result = sorted_import_names + multi_line_imports + non_import_lines
 
     with open(os.path.join(dir, py_file), "w") as wf:
         wf.writelines(result)
@@ -163,6 +177,7 @@ def sort_imports(py_file: str, dir: str) -> None:
         # before closing the file -- can run flake8 / black
 
     return None
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
