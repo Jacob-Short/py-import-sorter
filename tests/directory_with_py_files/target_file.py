@@ -19,15 +19,11 @@ from .forms import (
 
 
 
-
-
 def does_nothing():
     """this is a useless function to make sure these
     lines are not sorted
     """
     pass
-
-
 
 
 

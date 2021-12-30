@@ -5,22 +5,57 @@ import sys
 # for python 3.8 and earlier
 # from typing import List, Set, Dict, Tuple, Optional
 
-# TODO:
-# need some type of incrementor for number of py files
-# for readability when sorting
-
 
 def create_parser() -> argparse.ArgumentParser:
     """Returns an instance Parser"""
     parser = argparse.ArgumentParser(
-        description="""Will connect to crypto socket
-        from binance using symbol passed in
+        description="""args for directory to sort
         """
     )
-
     parser.add_argument("dir", help="name of directory to sort python files")
-
     return parser
+
+
+def main(args):
+    """will look through all python files and sort imports"""
+
+    parser = create_parser()
+    ns = parser.parse_args(args)
+
+    directory = ns.dir
+
+    if not ns:
+        parser.print_usage()
+
+    exit_flag = False
+
+    while not exit_flag:
+        try:
+            py_files = check_for_py_files(directory)
+            for file_num, file in enumerate(py_files):
+                print(
+                    f"#{file_num + 1} -- Found a python file: [ {file} ], starting to sort now..."
+                )
+                sort_imports(file, directory)
+            exit_flag = True
+        except FileNotFoundError as err:
+            print(f"'{directory}' does not exist. The asolute path is required.")
+            break
+        except Exception as err:
+            # TODO:
+            # set up logging for when unexpected things go wrong.
+            # can later add them to exceptions.
+            print(err)
+            break
+
+
+def check_for_py_files(directory: str) -> list:
+    """takes in abs path of directory and will look at all .py files
+    and sort all imports
+    """
+    full_path = os.path.abspath(directory)
+    py_files = [file for file in os.listdir(full_path) if file.endswith(".py")]
+    return py_files
 
 
 def sort_imports(py_file: str, dir: str) -> list:
@@ -103,7 +138,7 @@ def sort_imports(py_file: str, dir: str) -> list:
             if line.startswith("import"):
                 sorted_import_names.insert(ind, "\n")
                 break
-            
+
         sorted_import_names.append("\n")
         non_import_lines = [
             line
@@ -128,43 +163,6 @@ def sort_imports(py_file: str, dir: str) -> list:
         # before closing the file -- can run flake8 / black
 
     return sorted_import_names
-
-
-def check_for_py_files(directory: str) -> list:
-    """takes in abs path of directory and will look at all .py files
-    and sort all imports
-    """
-    full_path = os.path.abspath(directory)
-    py_files = [file for file in os.listdir(full_path) if file.endswith(".py")]
-    for file_num, file in enumerate(py_files):
-        print(f"{file_num} -- Found a python file: [ {file} ], starting to sort now...")
-        sort_imports(file, directory)
-    return py_files
-
-
-def main(args):
-    """will look through all python files and sort imports"""
-
-    parser = create_parser()
-    ns = parser.parse_args(args)
-
-    exit_flag = False
-
-    directory = ns.dir
-
-    if not ns:
-        parser.print_usage()
-
-    while not exit_flag:
-        try:
-            check_for_py_files(directory)
-            exit_flag = True
-        except FileNotFoundError as err:
-            print(f"'{directory}' does not exist. The asolute path is required.")
-            break
-        except Exception as err:
-            print(err)
-            break
 
 
 if __name__ == "__main__":
