@@ -38,6 +38,8 @@ def main(args):
                         f"#{file_num + 1} -- Found a python file: [ {file} ], starting to sort now..."
                     )
                     sort_imports(file, directory)
+                print()
+                print(f'Completed sorting successfully')
                 exit_flag = True
             else:
                 print(f"There are no python files within {directory}")
@@ -79,7 +81,7 @@ def multi_line_checker(lines: list) -> list:
 
     for index, line in enumerate(lines):
         if line.strip().startswith("from") and line.strip().endswith("("):
-            print(f"This is a edge case: [ {line} ]")
+            # print(f"This is a edge case: [ {line} ]")
             multi_line_imports.append(line)
             multi_line = True
         elif line.strip().endswith(")") and multi_line:
@@ -87,7 +89,7 @@ def multi_line_checker(lines: list) -> list:
             multi_line = False
         elif multi_line:
             multi_line_imports.append(line)
-    print(f"multi-line imports:\n{multi_line_imports}")
+    # print(f"number of multi-line imports: {len(multi_line_imports)}")
     """
     this section is to check if there are any multi-line import statements
     and if so then to sort them
@@ -97,7 +99,7 @@ def multi_line_checker(lines: list) -> list:
         print(f"sorted edge case lines:\n{sorted_multi_line_imports}")
         sorted_multi_line_imports.insert(0, multi_line_imports[0])
         sorted_multi_line_imports.append(multi_line_imports[-1])
-        print(f"FINAL RESULT OF sorted edge case lines:\n{sorted_multi_line_imports}")
+        print(f"Number of multi-line imports: {len(sorted_multi_line_imports)}")
         return sorted_multi_line_imports
     else:
         return multi_line_imports
@@ -167,8 +169,9 @@ def sort_imports(py_file: str, dir: str) -> None:
 
         non_import_lines.append("\n")
 
-        print(f"import lines:\n{sorted_import_names}")
-        print(f"non import lines:\n{non_import_lines}")
+        print(f"Number of import lines: {len(sorted_import_names)}")
+        print(f"Number of non-import lines: {len(non_import_lines)}")
+        print(f'Done sorting {py_file}\n')
 
         result = sorted_import_names + multi_line_imports + non_import_lines
 
