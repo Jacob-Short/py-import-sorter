@@ -38,7 +38,11 @@ Install dependencies
 
     poetry install
 
-Start CLI file
+Sort directory with python files
 
-    python python main.py <directory-with-pyfiles>
+    python python main.py <directory-with-.py-files>
+
+Optional argument to exclude 1 or more python files from sorting within given directory
+
+    python python main.py <directory-with-.py-files> --exclude <file_1.py> <optional_file_2.py> ...
 

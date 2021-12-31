@@ -17,19 +17,19 @@ class TestSortImports(unittest.TestCase):
 
     def test_easy_sort_imports(self):
         """tests sorting imports functions"""
-        args = ["target_file.py", "tests/directory_with_py_files"]
+        args = ["target_file.py", "tests/test_directory_1"]
         result = sort_imports(args)
         # expected
 
     def test_edge_case_sort_imports(self):
         """tests sorting imports functions"""
-        args = ["edge_case_file.py", "tests/edge_case_dir"]
+        args = ["edge_case_file.py", "tests/test_directory_2"]
         result = sort_imports(args)
         # expected
 
     def test_check_for_py_files(self):
         """checks python file extenstions"""
-        args = "tests/directory_with_py_files"
+        args = "tests/test_directory_1"
         result = check_for_py_files(args)
         expected = ["target_file.py", "forms.py"]
         self.assertEqual(result, expected)
