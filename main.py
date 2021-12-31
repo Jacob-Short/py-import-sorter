@@ -32,12 +32,16 @@ def main(args):
     while not exit_flag:
         try:
             py_files = check_for_py_files(directory)
-            for file_num, file in enumerate(py_files):
-                print(
-                    f"#{file_num + 1} -- Found a python file: [ {file} ], starting to sort now..."
-                )
-                sort_imports(file, directory)
-            exit_flag = True
+            if len(py_files) > 1:
+                for file_num, file in enumerate(py_files):
+                    print(
+                        f"#{file_num + 1} -- Found a python file: [ {file} ], starting to sort now..."
+                    )
+                    sort_imports(file, directory)
+                exit_flag = True
+            else:
+                print(f"There are no python files within {directory}")
+                break
         except FileNotFoundError as err:
             print(f"'{directory}' does not exist. The asolute path is required.")
             break
@@ -73,7 +77,6 @@ def multi_line_checker(lines: list) -> list:
     multi_line_imports = []
     multi_line = False
 
-
     for index, line in enumerate(lines):
         if line.strip().startswith("from") and line.strip().endswith("("):
             print(f"This is a edge case: [ {line} ]")
@@ -106,7 +109,6 @@ def sort_imports(py_file: str, dir: str) -> None:
     import_names = []
     with open(os.path.join(dir, py_file)) as f:
         all_lines = f.readlines()
-
 
         """
         this section is to account for multi line import statements
