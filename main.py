@@ -13,6 +13,12 @@ def create_parser() -> argparse.ArgumentParser:
         """
     )
     parser.add_argument("dir", help="name of directory to sort python files")
+    parser.add_argument(
+        "-e",
+        "--exclude",
+        nargs="+",
+        help="excludes given python files/directories from sorting",
+    )
     return parser
 
 
@@ -23,6 +29,7 @@ def main(args):
     ns = parser.parse_args(args)
 
     directory = ns.dir
+    excluded_files = ns.exclude
 
     if not ns:
         parser.print_usage()
@@ -31,15 +38,18 @@ def main(args):
 
     while not exit_flag:
         try:
-            py_files = check_for_py_files(directory)
-            if len(py_files) > 1:
+            if excluded_files:
+                py_files = check_for_py_files(directory, excluded_files)
+            else:
+                py_files = check_for_py_files(directory)
+            if len(py_files) >= 1:
                 for file_num, file in enumerate(py_files):
                     print(
                         f"#{file_num + 1} -- Found a python file: [ {file} ], starting to sort now..."
                     )
                     sort_imports(file, directory)
                 print()
-                print(f'Completed sorting successfully')
+                print(f"Completed sorting successfully")
                 exit_flag = True
             else:
                 print(f"There are no python files within {directory}")
@@ -55,12 +65,20 @@ def main(args):
             break
 
 
-def check_for_py_files(directory: str) -> list:
+def check_for_py_files(directory: str, *args) -> list:
     """takes in abs path of directory and will look at all .py files
     and sort all imports
     """
     full_path = os.path.abspath(directory)
-    py_files = [file for file in os.listdir(full_path) if file.endswith(".py")]
+    if args:
+        py_files = [
+            file
+            for file in os.listdir(full_path)
+            if file.endswith(".py") and file not in args[0]
+        ]
+    else:
+        py_files = [file for file in os.listdir(full_path) if file.endswith(".py")]
+
     return py_files
 
 
@@ -74,8 +92,6 @@ def multi_line_checker(lines: list) -> list:
         DeleteMessage
     )
     """
-    # TODO:
-    # refactor using regex
     multi_line_imports = []
     multi_line = False
 
@@ -171,7 +187,7 @@ def sort_imports(py_file: str, dir: str) -> None:
 
         print(f"Number of import lines: {len(sorted_import_names)}")
         print(f"Number of non-import lines: {len(non_import_lines)}")
-        print(f'Done sorting {py_file}\n')
+        print(f"Done sorting {py_file}\n")
 
         result = sorted_import_names + multi_line_imports + non_import_lines
 

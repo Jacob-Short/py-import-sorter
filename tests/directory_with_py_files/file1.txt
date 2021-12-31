@@ -1,4 +1,0 @@
-Goal 1:
-    - Become expert in Python
-    - Obtain BS in CS
-    - Mary Katie
