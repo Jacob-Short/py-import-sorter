@@ -50,6 +50,11 @@ def main(args):
                     sort_imports(file, directory)
                 print()
                 print(f"Completed sorting successfully")
+
+                # sorting all files within given directory after all sorted to clean up
+
+                os.system(f"black {directory}")
+                print(f"Successfully formatted all files within {directory} with black")
                 exit_flag = True
             else:
                 print(f"There are no python files within {directory}")
@@ -112,7 +117,7 @@ def multi_line_checker(lines: list) -> list:
     """
     if len(multi_line_imports) > 1:
         sorted_multi_line_imports = sorted([line for line in multi_line_imports[1:-1]])
-        print(f"sorted edge case lines:\n{sorted_multi_line_imports}")
+        # print(f"sorted edge case lines:\n{sorted_multi_line_imports}")
         sorted_multi_line_imports.insert(0, multi_line_imports[0])
         sorted_multi_line_imports.append(multi_line_imports[-1])
         print(f"Number of multi-line imports: {len(sorted_multi_line_imports)}")
@@ -121,7 +126,7 @@ def multi_line_checker(lines: list) -> list:
         return multi_line_imports
 
 
-def sort_imports(py_file: str, dir: str) -> None:
+def sort_imports(py_file: str, dir: str) -> list:
     """will look at all .py files and sort all imports"""
 
     import_names = []
@@ -197,7 +202,7 @@ def sort_imports(py_file: str, dir: str) -> None:
         # TODO:
         # before closing the file -- can run flake8 / black
 
-    return None
+    return result
 
 
 if __name__ == "__main__":
