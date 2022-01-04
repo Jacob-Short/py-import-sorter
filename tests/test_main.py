@@ -15,21 +15,28 @@ class TestSortImports(unittest.TestCase):
             "create_parser() function is not returning a parser object",
         )
 
-    def test_easy_sort_imports(self):
-        """tests sorting imports functions"""
-        args = ["target_file.py", "tests/test_directory_1"]
-        result = sort_imports(args)
-        # expected
+    # def test_easy_sort_imports(self):
+    #     """tests sorting imports functions"""
+    #     args = ["test_file.py", "tests/test_directory_1"]
+    #     result = sort_imports(args)
+    #     # expected
 
-    def test_edge_case_sort_imports(self):
-        """tests sorting imports functions"""
-        args = ["edge_case_file.py", "tests/test_directory_2"]
-        result = sort_imports(args)
-        # expected
+    # def test_edge_case_sort_imports(self):
+    #     """tests sorting imports functions"""
+    #     args = ["edge_case_file.py", "tests/test_directory_2"]
+    #     result = sort_imports(args)
+    #     # expected
 
-    def test_check_for_py_files(self):
+    def test_easy_check_for_py_files(self):
         """checks python file extenstions"""
         args = "tests/test_directory_1"
         result = check_for_py_files(args)
-        expected = ["target_file.py", "forms.py"]
+        expected = ["test_file_1.py"]
+        self.assertEqual(result, expected)
+
+    def test_difficult_check_for_py_files(self):
+        """checks python file extenstions"""
+        args = "tests/test_directory_2"
+        result = check_for_py_files(args)
+        expected = ["models.py", "forms.py", "test_file2.py"]
         self.assertEqual(result, expected)
